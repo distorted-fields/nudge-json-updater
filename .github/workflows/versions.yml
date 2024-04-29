@@ -1,8 +1,9 @@
 name: Update Versions
 
 on:
-  push:
-  branches: ['master']
+  create:
+    branches:
+      - '**'
 
 jobs:
   run-script:
