@@ -1,0 +1,17 @@
+name: Delete MDM Branches
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  delete-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Delete MDM branches
+        run: |
+          git fetch --prune
+          git branch -r --format "%(refname:short)" | grep -E "^origin/MDM-.*" | awk -F/ '{print $NF}' | xargs -I {} git push origin --delete {}
