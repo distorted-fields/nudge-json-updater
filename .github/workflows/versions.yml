@@ -9,18 +9,16 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
-
-    # Runs commands using the runners shell
-    - name: Get new os versions
-      run: |
+      - name: Get new os versions
+        run: |
           bash nudge-updater.sh 
-    - name: Commit files # transfer the new html files back into the repository
-      run: |
-        git config --local user.name "distorted-fields"
-        git add ./latest-os-versions.json
-        git commit -m "Updating the repository GitHub"
-    - name: Push changes # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.TOKEN }}
-        force: true
+      - name: Commit files # transfer the new html files back into the repository
+        run: |
+          git config --local user.name "distorted-fields"
+          git add ./latest-os-versions.json
+          git commit -m "Updating the repository GitHub"
+      - name: Push changes # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          force: true
