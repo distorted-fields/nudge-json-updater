@@ -2,7 +2,6 @@ name: Update Versions
 
 on:
   push:
-  branches: ['master']
 
 jobs:
   run-script:
