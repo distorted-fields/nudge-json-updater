@@ -11,7 +11,6 @@
 #############################################################
 # Variables
 github_username='distorted-fields'
-github_token="$1"
 #-----------------------------------------------------------#
 osN=14
 about_N_url="https://support.apple.com/en-us/HT213895"
@@ -38,21 +37,26 @@ startingDate=$(date +"%Y-%m-%d") # today
 # Functions
 #############################################################
 function clone_repo(){
+	echo "#############################################################"
 	git config --local user.name "$github_username"
 	git clone "https://github.com/distorted-fields/nudge-json-updater"
+	echo "#############################################################"
 }
 
 function update_repo(){
 	echo "#############################################################"
 	git add "$1"
+	echo "#############################################################"
 }
 
 function commit_repo(){
+	echo "#############################################################"
 	git commit -m "Updating the repository GitHub"
 	git status
 	git push origin main
+	echo "#############################################################"
 }
-
+#-----------------------------------------------------------#
 function get_latest_versions(){
 	# Get latest versions from Apple
 	os_releases=$(curl -sL https://gdmf.apple.com/v2/pmv)
@@ -432,6 +436,7 @@ function sort_rules(){
 #############################################################
 # MAIN
 #############################################################
+clone_repo
 get_latest_versions
 if $json_file_updated; then
 	backup_json_files
