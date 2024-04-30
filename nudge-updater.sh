@@ -139,10 +139,10 @@ function get_latest_versions(){
 
 function backup_json_files(){
 	for current_file_name in ${json_files[@]}; do
-		json_file="$SCRIPT_DIR/nudge-json-updater/json/$current_file_name.json"
+		json_file="$SCRIPT_DIR/json/$current_file_name.json"
 		echo "Backing up $json_file"
-		cp "$json_file" "$SCRIPT_DIR/nudge-json-updater/backups/$current_file_name-$startingDate.json"
-		update_repo "$SCRIPT_DIR/nudge-json-updater/backups/$current_file_name-$startingDate.json"
+		cp "$json_file" "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
+		update_repo "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
 	done
 }
 
@@ -445,8 +445,10 @@ if $json_file_updated; then
 	echo "**********************************************************"
 	ls -l
 	echo "**********************************************************"
+	$(pwd)
+	echo "**********************************************************"
 	for current_file_name in ${json_files[@]}; do
-		json_file="$SCRIPT_DIR/nudge-json-updater/json/$current_file_name.json"
+		json_file="$SCRIPT_DIR/json/$current_file_name.json"
 		echo "#############################################################"
 		echo "#############################################################"
 		echo "	Current JSON File = $current_file_name"
