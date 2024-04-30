@@ -11,7 +11,53 @@
     "attemptToFetchMajorUpgrade": true,
     "enforceMinorUpdates": true
   },
-  "osVersionRequirements": [],
+  "osVersionRequirements": [
+    [
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+        "requiredInstallationDate": "2023-07-01T16:00:00Z",
+        "requiredMinimumOSVersion": "13.6.6",
+        "targetedOSVersionsRule": "13"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+        "requiredInstallationDate": "2024-04-30T16:00:00Z",
+        "requiredMinimumOSVersion": "13.6.6",
+        "targetedOSVersionsRule": "13.6.5"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+        "requiredInstallationDate": "2024-06-04T16:00:00Z",
+        "requiredMinimumOSVersion": "13.6.6",
+        "targetedOSVersionsRule": "13.6.6"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+        "requiredInstallationDate": "2023-12-01T16:00:00Z",
+        "requiredMinimumOSVersion": "14.4.1",
+        "targetedOSVersionsRule": "14"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+        "requiredInstallationDate": "2024-04-30T16:00:00Z",
+        "requiredMinimumOSVersion": "14.4.1",
+        "targetedOSVersionsRule": "14.4"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+        "requiredInstallationDate": "2024-06-04T16:00:00Z",
+        "requiredMinimumOSVersion": "14.4.1",
+        "targetedOSVersionsRule": "14.4.1"
+      },
+      {
+        "actionButtonPath": "selfservice://content?action=search&term=macOS",
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+        "requiredInstallationDate": "2023-07-01T16:00:00Z",
+        "requiredMinimumOSVersion": "13.6.6",
+        "targetedOSVersionsRule": "default"
+      }
+    ]
+  ],
   "userExperience": {
     "allowUserQuitDeferrals": false,
     "initialRefreshCycle": 18000,
