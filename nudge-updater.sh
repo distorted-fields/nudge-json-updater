@@ -142,6 +142,7 @@ function backup_json_files(){
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
 		echo "Backing up $json_file"
 		cp "$json_file" "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
+		update_repo "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
 	done
 }
 
@@ -459,6 +460,7 @@ for current_file_name in ${json_files[@]}; do
 	delete_expired_rules
 	create_new_deadline_rule
 	sort_rules
+	update_repo "$json_file"
 done
 commit_repo
 echo "#############################################################"
