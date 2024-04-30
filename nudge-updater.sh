@@ -41,6 +41,7 @@ function clone_repo(){
 	git config --local user.name "$github_username"
 	git clone "https://github.com/distorted-fields/nudge-json-updater"
 	echo "#############################################################"
+	cd "$SCRIPT_DIR/nudge-json-updater"
 }
 
 function update_repo(){
