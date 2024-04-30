@@ -109,6 +109,8 @@ function update_repo(){
 	git config --local user.name "$github_username"
 	git add "$SCRIPT_DIR/latest-os-versions.json"
 	git commit -m "Updating the repository GitHub"
+	git status
+	git push origin master
 }
 #############################################################
 # MAIN
