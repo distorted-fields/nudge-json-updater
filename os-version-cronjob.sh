@@ -9,24 +9,28 @@
 #
 #
 #############################################################
+# Variables
 github_username='distorted-fields'
 github_token="$1"
-# Variables
+#-----------------------------------------------------------#
 osN=14
 osN1=13
 osN2=12
 #-----------------------------------------------------------#
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 version_json_url="https://raw.githubusercontent.com/distorted-fields/nudge-json-updater/main/latest-os-versions.json"
-curl -sL "$version_json_url" -o "$SCRIPT_DIR/latest-os-versions.json"
+#-----------------------------------------------------------#
+#-----------------------------------------------------------#
+# System Variables
+#-----------------------------------------------------------#
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+curl -sk "$version_json_url" -o "$SCRIPT_DIR/latest-os-versions.json"
 version_json_file="$SCRIPT_DIR/latest-os-versions.json"
 #############################################################
 # Functions
 #############################################################
 function get_latest_versions(){
-	# Get latest versions
+	# Get latest versions from Apple
 	os_releases=$(curl -sL https://gdmf.apple.com/v2/pmv)
-	echo "$os_releases"
 	latest_versions=$(echo $os_releases | jq -r '.PublicAssetSets.macOS[].ProductVersion')
 	echo "Results from Apple:"
 	echo "$latest_versions"
