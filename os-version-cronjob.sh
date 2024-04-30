@@ -111,6 +111,7 @@ function get_latest_versions(){
 }
 
 function update_repo(){
+	echo "#############################################################"
 	git config --local user.name "$github_username"
 	git add "$SCRIPT_DIR/latest-os-versions.json"
 	git commit -m "Updating the repository GitHub"
@@ -121,7 +122,7 @@ function update_repo(){
 # MAIN
 #############################################################
 get_latest_versions
-if [ $json_file_updated ]; then
+if $json_file_updated; then
 	update_repo
 else
 	echo "#############################################################"
