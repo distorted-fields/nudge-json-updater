@@ -26,6 +26,7 @@ version_json_file="$SCRIPT_DIR/latest-os-versions.json"
 function get_latest_versions(){
 	# Get latest versions
 	os_releases=$(curl -sL https://gdmf.apple.com/v2/pmv)
+	echo "$os_releases"
 	latest_versions=$(echo $os_releases | jq -r '.PublicAssetSets.macOS[].ProductVersion')
 	echo "Results from Apple:"
 	echo "$latest_versions"
