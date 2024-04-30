@@ -25,6 +25,7 @@ version_json_url="https://raw.githubusercontent.com/distorted-fields/nudge-json-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 curl -sk "$version_json_url" -o "$SCRIPT_DIR/latest-os-versions.json"
 version_json_file="$SCRIPT_DIR/latest-os-versions.json"
+json_file_updated=false
 #############################################################
 # Functions
 #############################################################
@@ -67,6 +68,7 @@ function get_latest_versions(){
 
 			if [[ $version_minor -gt $compare_version_minor ]]; then
 				echo "Updating $compare_version to $version"
+				json_file_updated=true
 				if [[ "$version_major" == "$osN" ]]; then
 					cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
 				elif [[ "$version_major" == "$osN1" ]]; then
@@ -77,6 +79,7 @@ function get_latest_versions(){
 			else
 				if [[ $version_point -gt $compare_version_point ]]; then
 					echo "Updating $compare_version to $version"
+					json_file_updated=true
 					if [[ "$version_major" == "$osN" ]]; then
 						cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
 					elif [[ "$version_major" == "$osN1" ]]; then
@@ -103,6 +106,8 @@ function get_latest_versions(){
 	echo "#############################################################"
 	echo "latest-os-versions.json contents:"
 	cat "$version_json_file"
+	echo "#############################################################"
+	echo "Did the JSON change: $json_file_updated"
 }
 
 function update_repo(){
@@ -116,6 +121,12 @@ function update_repo(){
 # MAIN
 #############################################################
 get_latest_versions
-update_repo
+if [ $json_file_updated ]; then
+	update_repo
+else
+	echo "#############################################################"
+	echo "Nothing changed, skipping repo update"
+fi
+
 echo "#############################################################"
 echo "DONE!"
