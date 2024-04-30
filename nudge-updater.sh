@@ -442,11 +442,6 @@ if $json_file_updated; then
 	backup_json_files
 	update_repo "$version_json_file"
 
-	echo "**********************************************************"
-	ls -l
-	echo "**********************************************************"
-	$(pwd)
-	echo "**********************************************************"
 	for current_file_name in ${json_files[@]}; do
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
 		echo "#############################################################"
