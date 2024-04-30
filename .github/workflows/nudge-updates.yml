@@ -1,0 +1,13 @@
+name: Update Nudge Versions
+on: workflow_dispatch
+
+jobs:
+  run-script:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Get new os versions
+        run: |
+          bash nudge-updater.sh
