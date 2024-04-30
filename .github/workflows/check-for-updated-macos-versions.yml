@@ -1,7 +1,8 @@
-name: Update Versions
-
-on: workflow_dispatch
-
+name: Check for updated macOS versions
+on:
+  schedule:
+    - cron: "0 */4 * * *" # Every 4 hours at the top of the hour
+    
 jobs:
   run-script:
     runs-on: macos-latest
