@@ -44,9 +44,7 @@ function clone_repo(){
 }
 
 function update_repo(){
-	echo "#############################################################"
 	git add "$1"
-	echo "#############################################################"
 }
 
 function commit_repo(){
@@ -127,6 +125,7 @@ function get_latest_versions(){
 	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	echo "#############################################################"
 	echo "Post-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
@@ -461,6 +460,6 @@ for current_file_name in ${json_files[@]}; do
 	create_new_deadline_rule
 	sort_rules
 done
-
+commit_repo
 echo "#############################################################"
 echo "DONE!"
