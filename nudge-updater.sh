@@ -205,7 +205,7 @@ function calculate_previous_latest_versions(){
 	current_N1_major=$(echo "$current_N1" | cut -d '.' -f1)
 	current_N2_major=$(echo "$current_N2" | cut -d '.' -f1)
 	#-----------------------------------------------------------#
-	versions=$(jq '.osVersionRequirements[].requiredMinimumOSVersion' "$json_file" | sed -e 's|"||g')
+	versions=$(cat "$json_file" | jq '.osVersionRequirements[].requiredMinimumOSVersion' | sed -e 's|"||g')
 	while IFS= read -r version
 	do
 		version_major=$(echo "$version" | cut -d '.' -f1)
