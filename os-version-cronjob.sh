@@ -114,6 +114,6 @@ function update_repo(){
 # MAIN
 #############################################################
 get_latest_versions
-# update_repo
+update_repo
 echo "#############################################################"
 echo "DONE!"
