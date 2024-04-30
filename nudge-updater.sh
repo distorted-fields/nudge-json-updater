@@ -139,10 +139,10 @@ function get_latest_versions(){
 
 function backup_json_files(){
 	for current_file_name in ${json_files[@]}; do
-		json_file="$SCRIPT_DIR/json/$current_file_name.json"
+		json_file="./json/$current_file_name.json"
 		echo "Backing up $json_file"
-		cp "$json_file" "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
-		update_repo "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
+		cp "$json_file" "./backups/$current_file_name-$startingDate.json"
+		update_repo "./backups/$current_file_name-$startingDate.json"
 	done
 }
 
@@ -442,7 +442,7 @@ if $json_file_updated; then
 	backup_json_files
 	update_repo "$version_json_file"
 	for current_file_name in ${json_files[@]}; do
-		json_file="$SCRIPT_DIR/json/$current_file_name.json"
+		json_file="./json/$current_file_name.json"
 		echo "#############################################################"
 		echo "#############################################################"
 		echo "	Current JSON File = $current_file_name"
