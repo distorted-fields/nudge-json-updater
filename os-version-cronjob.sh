@@ -101,6 +101,8 @@ function get_latest_versions(){
 	echo "Latest $osN1: $current_N1"
 	echo "Latest $osN2: $current_N2"
 	echo "#############################################################"
+	echo "latest-os-versions.json contents:"
+	echo "$version_json_file" | jq -r '.'
 }
 
 function update_repo(){
