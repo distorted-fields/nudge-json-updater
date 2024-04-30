@@ -63,9 +63,9 @@ function get_latest_versions(){
 	echo "$latest_versions"
 	echo "#############################################################"
 	#-----------------------------------------------------------#
-	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N=$(jq -r '.LatestVersions[].N.CurrentVersion' "$version_json_file")
+	current_N1=$(jq -r '.LatestVersions[].N1.CurrentVersion' "$version_json_file")
+	current_N2=$(jq -r '.LatestVersions[].N2.CurrentVersion' "$version_json_file")
 	echo "Pre-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
@@ -122,9 +122,9 @@ function get_latest_versions(){
 	done <<< "$latest_versions"
 	#-----------------------------------------------------------#
 	# Refetch latest versions
-	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N=$(jq -r '.LatestVersions[].N.CurrentVersion' "$version_json_file")
+	current_N1=$(jq -r '.LatestVersions[].N1.CurrentVersion' "$version_json_file")
+	current_N2=$(jq -r '.LatestVersions[].N2.CurrentVersion' "$version_json_file")
 	echo "#############################################################"
 	echo "Post-flight JSON version check:"
 	echo "Latest $osN: $current_N"
@@ -205,7 +205,7 @@ function calculate_previous_latest_versions(){
 	current_N1_major=$(echo "$current_N1" | cut -d '.' -f1)
 	current_N2_major=$(echo "$current_N2" | cut -d '.' -f1)
 	#-----------------------------------------------------------#
-	versions=$(cat "$json_file" | jq '.osVersionRequirements[].requiredMinimumOSVersion' | sed -e 's|"||g')
+	versions=$(jq -r '.osVersionRequirements[].[].requiredMinimumOSVersion' "$json_file")
 	while IFS= read -r version
 	do
 		version_major=$(echo "$version" | cut -d '.' -f1)
@@ -279,7 +279,7 @@ function delete_expired_rules(){
 		# if date is older than new target, delete
 	   	if [[ "$startingDate" > "$install_date" ]] ; then
 	   		# get target rule based on date
-	   		target_rules=$(jq --arg target_date "${install_date}T16:00:00Z" '.osVersionRequirements[] | select(.requiredInstallationDate == $target_date) | .targetedOSVersionsRule' "$json_file" | sed -e 's|"||g')
+	   		target_rules=$(jq -r --arg target_date "${install_date}T16:00:00Z" '.osVersionRequirements[] | select(.requiredInstallationDate == $target_date) | .targetedOSVersionsRule' "$json_file")
 	   		while IFS= read -r current_rule
 			do
 		   		if [ "$current_rule" != "default" ]; then
@@ -317,7 +317,7 @@ function update_min_os_requirements(){
 	echo "	Target OS Version Rules"
 	echo "#############################################################"
 	#-----------------------------------------------------------#
-	target_rules=$(jq '.osVersionRequirements[].targetedOSVersionsRule' "$json_file" | sed -e 's|"||g')
+	target_rules=$(jq -r '.osVersionRequirements[].targetedOSVersionsRule' "$json_file")
 	
 	while IFS= read -r current_rule
 	do
@@ -475,9 +475,6 @@ function sort_rules(){
 		echo "#############################################################"
 		echo "#############################################################"
 		echo "	Current JSON File = $current_file_name"
-		echo "#############################################################"
-		echo "#############################################################"
-		echo ""
 		echo ""
 	  	calculate_previous_latest_versions
 		calculate_new_deadline_dates
