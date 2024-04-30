@@ -9,6 +9,8 @@
 #
 #
 #############################################################
+github_username='distorted-fields'
+github_token="$1"
 # Variables
 osN=14
 osN1=13
@@ -25,10 +27,18 @@ function get_latest_versions(){
 	# Get latest versions
 	os_releases=$(curl -sL https://gdmf.apple.com/v2/pmv)
 	latest_versions=$(echo $os_releases | jq -r '.PublicAssetSets.macOS[].ProductVersion')
+	echo "Results from Apple:"
+	echo "$latest_versions"
+	echo "#############################################################"
 	#-----------------------------------------------------------#
 	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	echo "Pre-flight JSON version check:"
+	echo "Latest $osN: $current_N"
+	echo "Latest $osN1: $current_N1"
+	echo "Latest $osN2: $current_N2"
+	echo "#############################################################"
 	#-----------------------------------------------------------#
 	# Compare latest to current, and update current
 	while IFS= read -r version
@@ -81,13 +91,22 @@ function get_latest_versions(){
 	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	echo "Post-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
 	echo "Latest $osN2: $current_N2"
+	echo "#############################################################"
+}
+
+function update_repo(){
+	git config --local user.name "$github_username"
+	git add "$SCRIPT_DIR/latest-os-versions.json"
+	git commit -m "Updating the repository GitHub"
 }
 #############################################################
 # MAIN
 #############################################################
 get_latest_versions
+update_repo
 echo "#############################################################"
 echo "DONE!"
