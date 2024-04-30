@@ -11,4 +11,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Get new os versions
         run: |
-          bash os-version-cronjob.sh ${{ secrets.TOKEN }}
+          bash os-version-cronjob.sh
+      - name: Commit files # transfer the new html files back into the repository
+        run: |
+          git config --local user.name "distorted-fields"
+          git add ./latest-os-versions.json
+          git commit -m "Updating the repository GitHub html pages in the docs folder"
+      - name: Push changes # push the output folder to your repo
+          uses: ad-m/github-push-action@master
+          with:
+            github_token: ${{ secrets.TOKEN }}
+            force: true
