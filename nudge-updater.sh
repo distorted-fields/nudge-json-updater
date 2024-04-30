@@ -436,33 +436,58 @@ function sort_rules(){
 #############################################################
 # MAIN
 #############################################################
-clone_repo
-get_latest_versions
-if $json_file_updated; then
-	backup_json_files
-	update_repo "$version_json_file"
+# clone_repo
+# get_latest_versions
+# if $json_file_updated; then
+# 	backup_json_files
+# 	update_repo "$version_json_file"
 
+# 	for current_file_name in ${json_files[@]}; do
+# 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
+# 		echo "#############################################################"
+# 		echo "#############################################################"
+# 		echo "	Current JSON File = $current_file_name"
+# 		echo "#############################################################"
+# 		echo "#############################################################"
+# 		echo ""
+# 		echo ""
+# 	  	calculate_previous_latest_versions
+# 		calculate_new_deadline_dates
+# 		update_min_os_requirements
+# 		delete_expired_rules
+# 		create_new_deadline_rule
+# 		sort_rules
+# 		update_repo "$json_file"
+# 	done
+# 	commit_repo
+# else
+# 	echo "#############################################################"
+# 	echo "Nothing changed, skipping repo update"
+# fi
+# echo "#############################################################"
+# echo "DONE!"
+
+#############################################################
+#############################################################
+#############################################################
+echo "$SCRIPT_DIR"
 	for current_file_name in ${json_files[@]}; do
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
-		echo "#############################################################"
-		echo "#############################################################"
-		echo "	Current JSON File = $current_file_name"
-		echo "#############################################################"
-		echo "#############################################################"
-		echo ""
-		echo ""
-	  	calculate_previous_latest_versions
-		calculate_new_deadline_dates
-		update_min_os_requirements
-		delete_expired_rules
-		create_new_deadline_rule
-		sort_rules
-		update_repo "$json_file"
+		cat "$json_file"
+		# echo "#############################################################"
+		# echo "#############################################################"
+		# echo "	Current JSON File = $current_file_name"
+		# echo "#############################################################"
+		# echo "#############################################################"
+		# echo ""
+		# echo ""
+	  	# calculate_previous_latest_versions
+		# calculate_new_deadline_dates
+		# update_min_os_requirements
+		# delete_expired_rules
+		# create_new_deadline_rule
+		# sort_rules
+		# update_repo "$json_file"
 	done
-	commit_repo
-else
-	echo "#############################################################"
-	echo "Nothing changed, skipping repo update"
-fi
 echo "#############################################################"
 echo "DONE!"
