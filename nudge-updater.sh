@@ -63,9 +63,9 @@ function get_latest_versions(){
 	echo "$latest_versions"
 	echo "#############################################################"
 	#-----------------------------------------------------------#
-	current_N=$(jq -r '.LatestVersions[].N.CurrentVersion' "$version_json_file")
-	current_N1=$(jq -r '.LatestVersions[].N1.CurrentVersion' "$version_json_file")
-	current_N2=$(jq -r '.LatestVersions[].N2.CurrentVersion' "$version_json_file")
+	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	echo "Pre-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
@@ -122,10 +122,9 @@ function get_latest_versions(){
 	done <<< "$latest_versions"
 	#-----------------------------------------------------------#
 	# Refetch latest versions
-	current_N=$(jq -r '.LatestVersions[].N.CurrentVersion' "$version_json_file")
-	current_N1=$(jq -r '.LatestVersions[].N1.CurrentVersion' "$version_json_file")
-	current_N2=$(jq -r '.LatestVersions[].N2.CurrentVersion' "$version_json_file")
-	echo "#############################################################"
+	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	echo "Post-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
