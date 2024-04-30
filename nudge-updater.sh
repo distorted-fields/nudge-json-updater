@@ -470,19 +470,17 @@ function sort_rules(){
 #############################################################
 #############################################################
 #############################################################
-echo "$SCRIPT_DIR"
 	for current_file_name in ${json_files[@]}; do
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
-		cat "$json_file"
-		# echo "#############################################################"
-		# echo "#############################################################"
-		# echo "	Current JSON File = $current_file_name"
-		# echo "#############################################################"
-		# echo "#############################################################"
-		# echo ""
-		# echo ""
-	  	# calculate_previous_latest_versions
-		# calculate_new_deadline_dates
+		echo "#############################################################"
+		echo "#############################################################"
+		echo "	Current JSON File = $current_file_name"
+		echo "#############################################################"
+		echo "#############################################################"
+		echo ""
+		echo ""
+	  	calculate_previous_latest_versions
+		calculate_new_deadline_dates
 		# update_min_os_requirements
 		# delete_expired_rules
 		# create_new_deadline_rule
