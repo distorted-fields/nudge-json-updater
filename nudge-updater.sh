@@ -440,7 +440,7 @@ if $json_file_updated; then
 		calculate_new_deadline_dates
 		create_new_deadline_rule
 		update_min_os_requirements
-		sort_rules
+		# sort_rules
 		update_repo "$json_file"
 	done
 	commit_repo
