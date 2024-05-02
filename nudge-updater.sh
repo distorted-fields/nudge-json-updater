@@ -442,7 +442,7 @@ if $json_file_updated; then
 		update_min_os_requirements
 		# sort_rules
 		update_repo "$SCRIPT_DIR/json/$current_file_name.json"
-		echo "$json_file"
+		cat "$json_file"
 	done
 	backup_json_files
 	commit_repo
