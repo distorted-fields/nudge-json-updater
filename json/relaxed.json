@@ -1,0 +1,106 @@
+{
+	"optionalFeatures": {
+		"acceptableApplicationBundleIDs": [
+			"us.zoom.xos",
+			"com.tinyspeck.slackmacgap",
+			"com.jamfsoftware.selfservice.mac",
+			"com.microsoft.teams"
+		],
+		"aggressiveUserExperience": true,
+		"asynchronousSoftwareUpdate": true,
+		"attemptToFetchMajorUpgrade": true,
+		"enforceMinorUpdates": true
+	},
+	
+	"osVersionRequirements": [
+		{
+		"actionButtonPath": "selfservice://content?action=search&term=macOS",
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT212585",
+		"requiredInstallationDate": "2023-07-01T16:00:00Z",
+		"requiredMinimumOSVersion": "12.7.4",
+		"targetedOSVersionsRule": "default"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT212585",
+		"requiredInstallationDate": "2024-05-14T16:00:00Z",
+		"requiredMinimumOSVersion": "12.7.4",
+		"targetedOSVersionsRule": "12.7.3"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT212585",
+		"requiredInstallationDate": "2023-07-01T16:00:00Z",
+		"requiredMinimumOSVersion": "12.7.4",
+		"targetedOSVersionsRule": "12"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+		"requiredInstallationDate": "2024-05-28T16:00:00Z",
+		"requiredMinimumOSVersion": "13.6",
+		"targetedOSVersionsRule": "13.6.5"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+		"requiredInstallationDate": "2024-05-14T16:00:00Z",
+		"requiredMinimumOSVersion": "13.6",
+		"targetedOSVersionsRule": "13.6.4"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+		"requiredInstallationDate": "2023-07-01T16:00:00Z",
+		"requiredMinimumOSVersion": "13.6",
+		"targetedOSVersionsRule": "13"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+		"requiredInstallationDate": "2024-05-14T16:00:00Z",
+		"requiredMinimumOSVersion": "14.4",
+		"targetedOSVersionsRule": "14.3.1"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+		"requiredInstallationDate": "2024-04-16T16:00:00Z",
+		"requiredMinimumOSVersion": "14.4",
+		"targetedOSVersionsRule": "14.3"
+		},
+		{
+		"aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+		"requiredInstallationDate": "2024-01-16T16:00:00Z",
+		"requiredMinimumOSVersion": "14.4",
+		"targetedOSVersionsRule": "14"
+		}
+	],
+	
+	"userExperience": {
+		"allowUserQuitDeferrals": false,
+		"initialRefreshCycle": 18000,
+		"approachingWindowTime": 48,
+		"approachingRefreshCycle": 14400,
+		"imminentWindowTime": 24,
+		"imminentRefreshCycle": 7200,
+		"elapsedRefreshCycle": 1800,
+		"maxRandomDelayInSeconds": 1200,
+		"noTimers": false,
+		"nudgeRefreshCycle": 60,
+		"randomDelay": false
+	},
+
+	"userInterface": {
+		"showDeferralCount": false,
+		"simpleMode": false,
+		"singleQuitButton": true,
+		"updateElements": [
+			{
+			"_language": "en",
+			"actionButtonText": "Update Device",
+			"informationButtonText": "More Info",
+			"mainContentHeader": "Your device will restart during this update",
+			"mainContentNote": "You may need to select the 'More Info...' option to install macOS updates without upgrading to the next major version of macOS.",
+			"mainContentSubHeader": "Updates can take around 30 minutes to complete",
+			"mainContentText": "A fully up-to-date device is required to ensure that IT can accurately protect your device.\n\nIf you do not update your device, you may lose access to some items necessary for your day-to-day tasks.\n\nTo begin the update, simply click on the Update Device button and follow the provided steps.",
+			"mainHeader": "Your device requires a security update",
+			"primaryQuitButtonText": "Defer",
+			"subHeader": "A friendly reminder from Electric"
+			}
+		]
+	}
+}
