@@ -10,8 +10,6 @@
 #
 #############################################################
 # Variables
-github_username='distorted-fields'
-#-----------------------------------------------------------#
 osN=14
 about_N_url="https://support.apple.com/en-us/HT213895"
 osN1=13
@@ -19,14 +17,11 @@ about_N1_url="https://support.apple.com/en-us/HT213268"
 osN2=12
 about_N2_url="https://support.apple.com/en-us/HT212585"
 #-----------------------------------------------------------#
-version_json_url="https://raw.githubusercontent.com/distorted-fields/nudge-json-updater/main/latest-os-versions.json"
-repo_url="https://github.com/distorted-fields/nudge-json-updater"
-#-----------------------------------------------------------#
 #-----------------------------------------------------------#
 # System Variables
 #-----------------------------------------------------------#
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-curl -sk "$version_json_url" -o "$SCRIPT_DIR/latest-os-versions.json"
+#-----------------------------------------------------------#
 version_json_file="$SCRIPT_DIR/latest-os-versions.json"
 json_file_updated=false
 #-----------------------------------------------------------#
@@ -36,20 +31,13 @@ startingDate=$(date +"%Y-%m-%d") # today
 #############################################################
 # Functions
 #############################################################
-function clone_repo(){
-	echo "#############################################################"
-	git config --local user.name "$github_username"
-	git clone "https://github.com/distorted-fields/nudge-json-updater"
-	echo "#############################################################"
-}
-
 function update_repo(){
 	git add "$1"
 }
 
 function commit_repo(){
 	echo "#############################################################"
-	git commit -m "Updating the repository GitHub"
+	git commit -m "Updating the repo with new files"
 	git status
 	git push origin main
 	echo "#############################################################"
@@ -63,9 +51,9 @@ function get_latest_versions(){
 	echo "$latest_versions"
 	echo "#############################################################"
 	#-----------------------------------------------------------#
-	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
-	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	current_N=$(jq -r '.LatestVersions[].N.CurrentVersion' "$version_json_file" )
+	current_N1=$(jq -r '.LatestVersions[].N1.CurrentVersion' "$version_json_file")
+	current_N2=$(jq -r '.LatestVersions[].N2.CurrentVersion' "$version_json_file")
 	echo "Pre-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
@@ -125,6 +113,7 @@ function get_latest_versions(){
 	current_N=$(jq '.LatestVersions[].N.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N1=$(jq '.LatestVersions[].N1.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
 	current_N2=$(jq '.LatestVersions[].N2.CurrentVersion' "$version_json_file" | sed -e 's|"||g')
+	echo "#############################################################"
 	echo "Post-flight JSON version check:"
 	echo "Latest $osN: $current_N"
 	echo "Latest $osN1: $current_N1"
@@ -429,13 +418,12 @@ function create_new_deadline_rule(){
 
 function sort_rules(){
 	new_rules_array=$(cat "$json_file" | jq '.osVersionRequirements | sort_by(.targetedOSVersionsRule | ascii_downcase)' )
-	cat "$json_file" | jq --argjson new_array "[$new_rules_array]" '.osVersionRequirements = $new_array' | tee "$json_file" > /dev/null
+	cat "$json_file" | jq --argjson new_array "$new_rules_array" '.osVersionRequirements = $new_array' | tee "$json_file" > /dev/null
 }
 
 #############################################################
 # MAIN
 #############################################################
-clone_repo
 get_latest_versions
 if $json_file_updated; then
 	backup_json_files
@@ -448,10 +436,10 @@ if $json_file_updated; then
 		echo "	Current JSON File = $current_file_name"
 		echo ""
 	  	calculate_previous_latest_versions
+	  	delete_expired_rules
 		calculate_new_deadline_dates
-		update_min_os_requirements
-		delete_expired_rules
 		create_new_deadline_rule
+		update_min_os_requirements
 		sort_rules
 		update_repo "$json_file"
 	done
