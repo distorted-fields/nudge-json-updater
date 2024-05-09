@@ -270,27 +270,22 @@ function delete_expired_rules(){
 	   		target_rules=$(jq -r --arg target_date "${install_date}T16:00:00Z" '.osVersionRequirements[] | select(.requiredInstallationDate == $target_date) | .targetedOSVersionsRule' "$json_file")
 	   		while IFS= read -r current_rule
 			do
+				tmp=$(mktemp)
 		   		if [ "$current_rule" != "default" ]; then
 		   			if [[ "$current_rule" == *"$current_N_major"* ]] && [[ "$current_rule" != "$current_N_major" ]] && [[ "$current_N_major" != "" ]]; then
 		   				echo "Rule $current_rule expired on $install_date - Deleting..."
 		   				#-----------------------------------------------------------#
-		   				# delete entries where date is older than target date and os rule is not default or major
-						cat "$json_file" | jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' \
-						| tee "$json_file" > /dev/null
+		   				jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 					fi
 					if [[ "$current_rule" == *"$current_N1_major"* ]] && [[ "$current_rule" != "$current_N1_major" ]] && [[ "$current_N1_major" != "" ]]; then
 		   				echo "Rule $current_rule expired on $install_date - Deleting..."
 		   				#-----------------------------------------------------------#
-		   				# delete entries where date is older than target date and os rule is not default or major
-						cat "$json_file" | jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' \
-						| tee "$json_file" > /dev/null
+						jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 					fi
 					if [[ "$current_rule" == *"$current_N2_major"* ]] && [[ "$current_rule" != "$current_N2_major" ]] && [[ "$current_N2_major" != "" ]]; then
 		   				echo "Rule $current_rule expired on $install_date - Deleting..."
 		   				#-----------------------------------------------------------#
-		   				# delete entries where date is older than target date and os rule is not default or major
-						cat "$json_file" | jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' \
-						| tee "$json_file" > /dev/null
+		   				jq --arg rule "$current_rule" 'del(.osVersionRequirements[] | select(.targetedOSVersionsRule == $rule))' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 					fi
 				fi
 			done <<< "$target_rules"
@@ -309,24 +304,23 @@ function update_min_os_requirements(){
 	
 	while IFS= read -r current_rule
 	do
+		tmp=$(mktemp)
+		echo "Current Rule: $current_rule"
 		if [[ "$current_rule" == *"$current_N_major"* ]] && [[ "$current_N_major" != "" ]]; then
 			echo "Updating Rule: $current_rule to require $current_N"
 			#-----------------------------------------------------------#
-			cat "$json_file" | jq --arg rule "$current_rule" --arg updateVal "$current_N" \
-	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' \
-	 			| tee "$json_file" > /dev/null
+			jq --arg rule "$current_rule" --arg updateVal "$current_N" \
+	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	elif [[ "$current_rule" == *"$current_N1_major"* ]] && [[ "$current_N1_major" != "" ]]; then
 	 		echo "Updating Rule: $current_rule to require $current_N1"
 			#-----------------------------------------------------------#
-			cat "$json_file" | jq --arg rule "$current_rule" --arg updateVal "$current_N1" \
-	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' \
-	 			| tee "$json_file" > /dev/null
+			jq --arg rule "$current_rule" --arg updateVal "$current_N1" \
+	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	elif [[ "$current_rule" == *"$current_N2_major"* ]] && [[ "$current_N2_major" != "" ]]; then
 	 		echo "Updating Rule: $current_rule to require $current_N2"
 			#-----------------------------------------------------------#
-			cat "$json_file" | jq --arg rule "$current_rule" --arg updateVal "$current_N2" \
-	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' \
-	 			| tee "$json_file" > /dev/null
+			jq --arg rule "$current_rule" --arg updateVal "$current_N2" \
+	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	else
 	 		if [ "$current_file_name" == "strict" ]; then
 	 			new_default="$current_N"
@@ -339,9 +333,8 @@ function update_min_os_requirements(){
 	 			#-----------------------------------------------------------#
 	 			echo "Updating Rule: $current_rule to require $new_default"
 				#-----------------------------------------------------------#
-	 			cat "$json_file" | jq --arg rule "default" --arg updateVal "$new_default" \
-					'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' \
-					| tee "$json_file" > /dev/null
+	 			jq --arg rule "$current_rule" --arg updateVal "$new_default" \
+					'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 			fi
 	 	fi
 	done <<< "$target_rules"
@@ -350,6 +343,7 @@ function update_min_os_requirements(){
 }
 
 function create_new_deadline_rule(){
+	tmp=$(mktemp)
 	echo "#############################################################"
 	echo "	Creating NEW Target OS Version Rules"
 	echo "#############################################################"
@@ -361,13 +355,13 @@ function create_new_deadline_rule(){
 	else
 		required_tuesday_dday="${relaxed_tuesday_dday}T16:00:00Z"
 	fi
-	if [ "$current_N" != "" ] && [[ "$previous_N" != "" ]]; then
+	if [ "$current_N" != "" ] && [[ "$previous_N" != "" ]] && [[ "$current_N" != "$previous_N" ]]; then
 		echo "Creating Rule: $current_N"
 		echo "	Install Deadline: $required_tuesday_dday"
 		echo " 	About URL: $about_N_url"
 		echo "	Targeted OS: $previous_N"
 		#-----------------------------------------------------------#
-		cat "$json_file" | jq --arg url "$about_N_url" \
+		jq --arg url "$about_N_url" \
 			--arg required_date "$required_tuesday_dday" \
 			--arg required_minOS "$current_N" \
 			--arg targetOS_rule "$previous_N" \
@@ -376,15 +370,15 @@ function create_new_deadline_rule(){
      			"requiredInstallationDate": $required_date, 
      			"requiredMinimumOSVersion": $required_minOS, 
      			"targetedOSVersionsRule": $targetOS_rule
-			}]' | tee "$json_file" > /dev/null
+			}]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	fi
-	if [ "$current_N1" != "" ] && [[ "$previous_N1" != "" ]]; then
+	if [ "$current_N1" != "" ] && [[ "$previous_N1" != "" ]] && [[ "$current_N1" != "$previous_N1" ]]; then
 		echo "Creating Rule: $current_N1"
 		echo "	Install Deadline: $required_tuesday_dday"
 		echo " 	About URL: $about_N1_url"
 		echo "	Targeted OS: $previous_N1"
 		#-----------------------------------------------------------#
-		cat "$json_file" | jq --arg url "$about_N1_url" \
+		jq --arg url "$about_N1_url" \
 			--arg required_date "$required_tuesday_dday" \
 			--arg required_minOS "$current_N1" \
 			--arg targetOS_rule "$previous_N1" \
@@ -393,15 +387,15 @@ function create_new_deadline_rule(){
      			"requiredInstallationDate": $required_date, 
      			"requiredMinimumOSVersion": $required_minOS, 
      			"targetedOSVersionsRule": $targetOS_rule
-			}]' | tee "$json_file" > /dev/null
+			}]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	fi
-	if [ "$current_N2" != "" ] && [[ "$previous_N2" != "" ]]; then
+	if [ "$current_N2" != "" ] && [[ "$previous_N2" != "" ]] && [[ "$current_N2" != "$previous_N2" ]]; then
 		echo "Creating Rule: $current_N2"
 		echo "	Install Deadline: $required_tuesday_dday"
 		echo " 	About URL: $about_N2_url"
 		echo "	Targeted OS: $previous_N2"
 		#-----------------------------------------------------------#
-		cat "$json_file" | jq --arg url "$about_N2_url" \
+		jq --arg url "$about_N2_url" \
 			--arg required_date "$required_tuesday_dday" \
 			--arg required_minOS "$current_N2" \
 			--arg targetOS_rule "$previous_N2" \
@@ -410,7 +404,7 @@ function create_new_deadline_rule(){
      			"requiredInstallationDate": $required_date, 
      			"requiredMinimumOSVersion": $required_minOS, 
      			"targetedOSVersionsRule": $targetOS_rule
-			}]' | tee "$json_file" > /dev/null
+			}]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	fi
 	#-----------------------------------------------------------#
 	echo ""
@@ -437,12 +431,11 @@ if $json_file_updated; then
 		echo ""
 	  	calculate_previous_latest_versions
 	  	delete_expired_rules
+		update_min_os_requirements
 		calculate_new_deadline_dates
 		create_new_deadline_rule
-		update_min_os_requirements
-		# sort_rules
+		sort_rules
 		update_repo "$SCRIPT_DIR/json/$current_file_name.json"
-		cat "$json_file"
 	done
 	backup_json_files
 	commit_repo
