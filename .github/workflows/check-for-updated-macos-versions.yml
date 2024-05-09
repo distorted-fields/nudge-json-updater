@@ -1,5 +1,6 @@
 name: Check for updated macOS versions
-on: workflow_dispatch
+on: 
+  workflow_dispatch: # Manual Trigger
 
   schedule:
     - cron: "0 */4 * * *" # Every 4 hours at the top of the hour
