@@ -17,7 +17,7 @@ about_N1_url="https://support.apple.com/en-us/HT213268"
 osN2=12
 about_N2_url="https://support.apple.com/en-us/HT212585"
 #-----------------------------------------------------------#
-json_files=("strict" "default" "relaxed")
+json_files=("strict" "default" "relaxed" "jc-default")
 #-----------------------------------------------------------#
 #-----------------------------------------------------------#
 # System Variables
