@@ -9,6 +9,7 @@
 #
 #
 #############################################################
+SLACK_URL="$1"
 # Variables
 osN=14
 about_N_url="https://support.apple.com/en-us/HT213895"
@@ -441,7 +442,7 @@ if $json_file_updated; then
 	commit_repo
 
   	#ping slack
-   	curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"New versions of macOS have been updated. Please review the changes: https://github.com/distorted-fields/nudge-json-updater \"}" https://hooks.slack.com/services/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
+   	curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"New versions of macOS have been updated. Please review the changes: https://github.com/distorted-fields/nudge-json-updater \"}" $SLACK_URL
 else
 	echo "#############################################################"
 	echo "Nothing changed, skipping repo update"
