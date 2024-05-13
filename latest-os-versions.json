@@ -1,0 +1,15 @@
+{
+  "LatestVersions": [
+    {
+      "N": {
+        "CurrentVersion": "14.4.1"
+      },
+      "N1": {
+        "CurrentVersion": "13.6.6"
+      },
+      "N2": {
+        "CurrentVersion": "12.7.4"
+      }
+    }
+  ]
+}
