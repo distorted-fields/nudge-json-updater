@@ -14,4 +14,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Get new os versions
         run: |
-          bash nudge-updater.sh ${{ github.SLACK_URL }}
+          bash nudge-updater.sh ${{ secrets.SLACK_URL }}
