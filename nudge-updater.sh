@@ -84,23 +84,25 @@ function get_latest_versions(){
 			if [[ $version_minor -gt $compare_version_minor ]]; then
 				echo "Updating $compare_version to $version"
 				json_file_updated=true
+				tmp=$(mktemp)
 				if [[ "$version_major" == "$osN" ]]; then
-					cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+		   			jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 				elif [[ "$version_major" == "$osN1" ]]; then
-					cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N1.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+					jq --arg updateVal "$version" '.LatestVersions[].N1.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 				elif [[ "$version_major" == "$osN2" ]]; then
-					cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N2.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+					jq --arg updateVal "$version" '.LatestVersions[].N2.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 				fi
 			else
 				if [[ $version_point -gt $compare_version_point ]]; then
 					echo "Updating $compare_version to $version"
 					json_file_updated=true
+					tmp=$(mktemp)
 					if [[ "$version_major" == "$osN" ]]; then
-						cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+						jq --arg updateVal "$version" '.LatestVersions[].N.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 					elif [[ "$version_major" == "$osN1" ]]; then
-						cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N1.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+						jq --arg updateVal "$version" '.LatestVersions[].N1.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 					elif [[ "$version_major" == "$osN2" ]]; then
-						cat "$version_json_file" | jq --arg updateVal "$version" '.LatestVersions[].N2.CurrentVersion = $updateVal' | tee "$version_json_file" > /dev/null
+						jq --arg updateVal "$version" '.LatestVersions[].N2.CurrentVersion = $updateVal' "$version_json_file" > "$tmp" && mv "$tmp" "$version_json_file"
 					fi
 				else
 					echo "Latest version: $version matches current version: $compare_version"
