@@ -2,13 +2,13 @@
   "LatestVersions": [
     {
       "N": {
-        "CurrentVersion": "14.4"
+        "CurrentVersion": "14.5"
       },
       "N1": {
-        "CurrentVersion": "13.6"
+        "CurrentVersion": "13.6.7"
       },
       "N2": {
-        "CurrentVersion": "12.7.4"
+        "CurrentVersion": "12.7.5"
       }
     }
   ]
