@@ -310,22 +310,22 @@ function update_min_os_requirements(){
 		tmp=$(mktemp)
 		echo "Current Rule: $current_rule"
 		if [[ "$current_rule" == *"$current_N_major"* ]] && [[ "$current_N_major" != "" ]]; then
-			echo "Updating Rule: $current_rule to require $current_N"
+			echo "	Updating Rule: $current_rule to require $current_N"
 			#-----------------------------------------------------------#
 			jq --arg rule "$current_rule" --arg updateVal "$current_N" \
 	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	elif [[ "$current_rule" == *"$current_N1_major"* ]] && [[ "$current_N1_major" != "" ]]; then
-	 		echo "Updating Rule: $current_rule to require $current_N1"
+	 		echo "	Updating Rule: $current_rule to require $current_N1"
 			#-----------------------------------------------------------#
 			jq --arg rule "$current_rule" --arg updateVal "$current_N1" \
 	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	elif [[ "$current_rule" == *"$current_N2_major"* ]] && [[ "$current_N2_major" != "" ]]; then
-	 		echo "Updating Rule: $current_rule to require $current_N2"
+	 		echo "	Updating Rule: $current_rule to require $current_N2"
 			#-----------------------------------------------------------#
 			jq --arg rule "$current_rule" --arg updateVal "$current_N2" \
 	 			'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
 	 	else
-	 		if [ "$current_file_name" == "strict" ]; then
+	 		if [ "$current_file_name" == "strict" ] || [ "$current_file_name" == "jc-default" ]; then
 	 			new_default="$current_N"
 	 		elif [ "$current_file_name" == "default" ]; then
 	 			new_default="$current_N1"
@@ -334,7 +334,7 @@ function update_min_os_requirements(){
 	 		fi
 	 		if [ "$new_default" != "" ]; then
 	 			#-----------------------------------------------------------#
-	 			echo "Updating Rule: $current_rule to require $new_default"
+	 			echo "	Updating Rule: $current_rule to require $new_default"
 				#-----------------------------------------------------------#
 	 			jq --arg rule "$current_rule" --arg updateVal "$new_default" \
 					'.osVersionRequirements = [.osVersionRequirements[] | if (.targetedOSVersionsRule == $rule) then (.requiredMinimumOSVersion |= $updateVal) else . end]' "$json_file" > "$tmp" && mv "$tmp" "$json_file"
@@ -353,7 +353,7 @@ function create_new_deadline_rule(){
 	#-----------------------------------------------------------#
 	if [ "$current_file_name" == "strict" ]; then
 		required_tuesday_dday="${strict_tuesday_dday}T16:00:00Z"
-	elif [ "$current_file_name" == "default" ]; then
+	elif [ "$current_file_name" == "default" ] || [ "$current_file_name" == "jc-default" ]; then
 		required_tuesday_dday="${default_tuesday_dday}T16:00:00Z"
 	else
 		required_tuesday_dday="${relaxed_tuesday_dday}T16:00:00Z"
