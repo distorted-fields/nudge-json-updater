@@ -4,12 +4,15 @@
 #
 #           Created by A.Hodgson                     
 #            Date: 2024-04-12                            
-#            Purpose:
+#            Purpose: Automatically update nudge JSON files
 #
 #
 #
 #############################################################
+run_local='n'
+#-----------------------------------------------------------#
 SLACK_URL="$1"
+#-----------------------------------------------------------#
 # Variables
 osN=14
 about_N_url="https://support.apple.com/en-us/HT213895"
@@ -18,10 +21,15 @@ about_N1_url="https://support.apple.com/en-us/HT213268"
 osN2=12
 about_N2_url="https://support.apple.com/en-us/HT212585"
 #-----------------------------------------------------------#
+# JSON files must be in a folder called 'JSON', add/remove as necessary
 json_files=("strict" "default" "relaxed" "jc-default")
+
+#############################################################
+# 			DO NOT EDIT BELOW !!!
+#############################################################
+
 #-----------------------------------------------------------#
-#-----------------------------------------------------------#
-# System Variables
+# System Variables - 
 #-----------------------------------------------------------#
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 #-----------------------------------------------------------#
@@ -43,7 +51,7 @@ function commit_repo(){
 	git push origin main
 	echo "#############################################################"
 }
-#-----------------------------------------------------------#
+
 function get_latest_versions(){
 	# Get latest versions from Apple
 	os_releases=$(curl -sL https://gdmf.apple.com/v2/pmv)
@@ -133,7 +141,9 @@ function backup_json_files(){
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
 		echo "Backing up $json_file"
 		cp "$json_file" "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
-		update_repo "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
+		if [ "$run_local" != "y" ]; then
+			update_repo "$SCRIPT_DIR/backups/$current_file_name-$startingDate.json"
+		fi
 	done
 }
 
@@ -424,7 +434,9 @@ function sort_rules(){
 get_latest_versions
 if $json_file_updated; then
 	backup_json_files
-	update_repo "$version_json_file"
+	if [ "$run_local" != "y" ]; then
+		update_repo "$version_json_file"
+	fi
 
 	for current_file_name in ${json_files[@]}; do
 		json_file="$SCRIPT_DIR/json/$current_file_name.json"
@@ -438,13 +450,15 @@ if $json_file_updated; then
 		calculate_new_deadline_dates
 		create_new_deadline_rule
 		sort_rules
-		update_repo "$SCRIPT_DIR/json/$current_file_name.json"
+		if [ "$run_local" != "y" ]; then
+			update_repo "$SCRIPT_DIR/json/$current_file_name.json"
+		fi
 	done
-	backup_json_files
-	commit_repo
-
-  	#ping slack
-   	curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"New versions of macOS have been updated. Please review the changes: https://github.com/distorted-fields/nudge-json-updater \"}" $SLACK_URL
+	if [ "$run_local" != "y" ]; then
+		commit_repo
+		#ping slack
+   		curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"New versions of macOS have been updated. Please review the changes: https://github.com/distorted-fields/nudge-json-updater \"}" $SLACK_URL
+	fi
 else
 	echo "#############################################################"
 	echo "Nothing changed, skipping repo update"
