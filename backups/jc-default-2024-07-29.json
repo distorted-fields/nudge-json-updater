@@ -13,34 +13,15 @@
   },
   "osVersionRequirements": [
     {
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
-      "requiredInstallationDate": "2023-07-01T16:00:00Z",
-      "requiredMinimumOSVersion": "13.6.8",
-      "targetedOSVersionsRule": "13"
-    },
-    {
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
-      "requiredInstallationDate": "2024-09-03T16:00:00Z",
-      "requiredMinimumOSVersion": "13.6.8",
-      "targetedOSVersionsRule": "13.6.7"
-    },
-    {
       "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
-      "requiredInstallationDate": "2023-12-01T16:00:00Z",
-      "requiredMinimumOSVersion": "14.6",
-      "targetedOSVersionsRule": "14"
+      "requiredInstallationDate": "2024-06-25T16:00:00Z",
+      "requiredMinimumOSVersion": "14.5",
+      "targetedOSVersionsRule": "14.4.1"
     },
     {
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
-      "requiredInstallationDate": "2024-09-03T16:00:00Z",
-      "requiredMinimumOSVersion": "14.6",
-      "targetedOSVersionsRule": "14.5"
-    },
-    {
-      "actionButtonPath": "selfservice://content?action=search&term=macOS",
       "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
-      "requiredInstallationDate": "2023-07-01T16:00:00Z",
-      "requiredMinimumOSVersion": "13.6.8",
+      "requiredInstallationDate": "2024-04-15T16:00:00Z",
+      "requiredMinimumOSVersion": "14.5",
       "targetedOSVersionsRule": "default"
     }
   ],
