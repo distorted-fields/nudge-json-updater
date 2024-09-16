@@ -13,34 +13,28 @@
   },
   "osVersionRequirements": [
     {
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
-      "requiredInstallationDate": "2023-07-01T16:00:00Z",
-      "requiredMinimumOSVersion": "13.7",
-      "targetedOSVersionsRule": "13"
-    },
-    {
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
-      "requiredInstallationDate": "2024-10-22T16:00:00Z",
-      "requiredMinimumOSVersion": "13.7",
-      "targetedOSVersionsRule": "13.6.9"
-    },
-    {
       "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
-      "requiredInstallationDate": "2023-12-01T16:00:00Z",
-      "requiredMinimumOSVersion": "14.7",
+      "requiredInstallationDate": "2024-04-16T16:00:00Z",
+      "requiredMinimumOSVersion": "14.6.1",
       "targetedOSVersionsRule": "14"
     },
     {
       "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
-      "requiredInstallationDate": "2024-10-22T16:00:00Z",
-      "requiredMinimumOSVersion": "14.7",
-      "targetedOSVersionsRule": "14.6.1"
+      "requiredInstallationDate": "2024-08-13T16:00:00Z",
+      "requiredMinimumOSVersion": "14.6.1",
+      "targetedOSVersionsRule": "14.5"
+    },
+    {
+      "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
+      "requiredInstallationDate": "2024-08-27T16:00:00Z",
+      "requiredMinimumOSVersion": "14.6.1",
+      "targetedOSVersionsRule": "14.6"
     },
     {
       "actionButtonPath": "selfservice://content?action=search&term=macOS",
-      "aboutUpdateURL": "https://support.apple.com/en-us/HT213268",
+      "aboutUpdateURL": "https://support.apple.com/en-us/HT213895",
       "requiredInstallationDate": "2023-07-01T16:00:00Z",
-      "requiredMinimumOSVersion": "13.7",
+      "requiredMinimumOSVersion": "14.6.1",
       "targetedOSVersionsRule": "default"
     }
   ],
@@ -51,7 +45,7 @@
     "approachingRefreshCycle": 14400,
     "imminentWindowTime": 24,
     "imminentRefreshCycle": 7200,
-    "elapsedRefreshCycle": 1800,
+    "elapsedRefreshCycle": 900,
     "maxRandomDelayInSeconds": 1200,
     "noTimers": false,
     "nudgeRefreshCycle": 60,
@@ -67,7 +61,7 @@
         "actionButtonText": "Update Device",
         "informationButtonText": "More Info",
         "mainContentHeader": "Your device will restart during this update",
-        "mainContentNote": "You may need to select the 'More Info...' option to install macOS updates without upgrading to the next major version of macOS.",
+        "mainContentNote": "Important Notes",
         "mainContentSubHeader": "Updates can take around 30 minutes to complete",
         "mainContentText": "A fully up-to-date device is required to ensure that IT can accurately protect your device.\n\nIf you do not update your device, you may lose access to some items necessary for your day-to-day tasks.\n\nTo begin the update, simply click on the Update Device button and follow the provided steps.",
         "mainHeader": "Your device requires a security update",
